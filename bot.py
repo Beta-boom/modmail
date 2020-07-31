@@ -93,7 +93,7 @@ class ModmailBot(commands.Bot):
         logger.info("││││ │ │││││├─┤││")
         logger.info("┴ ┴└─┘─┴┘┴ ┴┴ ┴┴┴─┘")
         logger.info("v%s", __version__)
-        logger.info("Authors: kyb3r, fourjr, Taaku18")
+        logger.info("Authors: kyb3r, fourjr, Taaku18. Traducción por GuayMC#2711")
         logger.line()
 
         for cog in self.loaded_cogs:
@@ -172,10 +172,10 @@ class ModmailBot(commands.Bot):
             try:
                 self.loop.run_until_complete(asyncio.gather(*asyncio.all_tasks(self.loop)))
             except asyncio.CancelledError:
-                logger.debug("All pending tasks has been cancelled.")
+                logger.debug("Todas las tareas pendientes han sido canceladas.")
             finally:
                 self.loop.run_until_complete(self.session.close())
-                logger.error(" - Shutting down bot - ")
+                logger.error(" - Apagando bot - ")
 
     @property
     def bot_owner_ids(self):
@@ -262,8 +262,8 @@ class ModmailBot(commands.Bot):
     @property
     def guild(self) -> typing.Optional[discord.Guild]:
         """
-        The guild that the bot is serving
-        (the server where users message it from)
+        El servidor al que el bot está sirviendo
+        (el servidor del que vienen los mensajes de soporte)
         """
         return discord.utils.get(self.guilds, id=self.guild_id)
 
@@ -495,7 +495,7 @@ class ModmailBot(commands.Bot):
             try:
                 name = await converter.convert(ctx, name.strip(":"))
             except commands.BadArgument as e:
-                logger.warning("%s is not a valid emoji. %s.", e)
+                logger.warning("%s no es un emoji válido. %s.", e)
                 raise
         return name
 
@@ -620,7 +620,7 @@ class ModmailBot(commands.Bot):
 
         member = self.guild.get_member(author.id)
         if member is None:
-            logger.debug("User not in guild, %s.", author.id)
+            logger.debug("El usuario no está en el servidor, %s.", author.id)
         else:
             author = member
 
@@ -708,7 +708,7 @@ class ModmailBot(commands.Bot):
             if delta:
                 await message.channel.send(
                     embed=discord.Embed(
-                        title="Message not sent!",
+                        title="¡Mensaje no enviado!",
                         description=f"You must wait for {delta} before you can contact me again.",
                         color=self.error_color,
                     )
@@ -751,7 +751,7 @@ class ModmailBot(commands.Bot):
         try:
             await thread.send(message)
         except Exception:
-            logger.error("Failed to send message:", exc_info=True)
+            logger.error("Fallo al enviar el mensaje:", exc_info=True)
             await self.add_reaction(message, blocked_emoji)
         else:
             await self.add_reaction(message, sent_emoji)
@@ -847,7 +847,7 @@ class ModmailBot(commands.Bot):
             else:
                 if value in permissions[name]:
                     permissions[name].remove(value)
-        logger.info("Updating permissions for %s, %s (add=%s).", name, value, add)
+        logger.info("Actualizando permisos para %s, %s (add=%s).", name, value, add)
         await self.config.update()
 
     async def on_message(self, message):
@@ -989,7 +989,7 @@ class ModmailBot(commands.Bot):
                 await linked_message.remove_reaction(reaction, self.user)
                 await message.remove_reaction(reaction, self.user)
             except (discord.HTTPException, discord.InvalidArgument) as e:
-                logger.warning("Failed to remove reaction: %s", e)
+                logger.warning("Fallo al eliminar la reacción: %s", e)
 
     async def on_raw_reaction_add(self, payload):
         await self.handle_reaction_events(payload)
@@ -1003,7 +1003,7 @@ class ModmailBot(commands.Bot):
 
         if isinstance(channel, discord.CategoryChannel):
             if self.main_category == channel:
-                logger.debug("Main category was deleted.")
+                logger.debug("La categoría principal ha sido borrada.")
                 self.config.remove("main_category_id")
                 await self.config.update()
             return
@@ -1012,7 +1012,7 @@ class ModmailBot(commands.Bot):
             return
 
         if self.log_channel is None or self.log_channel == channel:
-            logger.info("Log channel deleted.")
+            logger.info("Canal de logs borrado.")
             self.config.remove("log_channel_id")
             await self.config.update()
             return
@@ -1041,7 +1041,7 @@ class ModmailBot(commands.Bot):
         thread = await self.threads.find(recipient=member)
         if thread:
             embed = discord.Embed(
-                description="The recipient has left the server.", color=self.error_color
+                description="El usuario ha salido del servidor.", color=self.error_color
             )
             await thread.channel.send(embed=embed)
 
@@ -1051,7 +1051,7 @@ class ModmailBot(commands.Bot):
         thread = await self.threads.find(recipient=member)
         if thread:
             embed = discord.Embed(
-                description="The recipient has joined the server.", color=self.mod_color
+                description="El usuario ha entrado al servidor.", color=self.mod_color
             )
             await thread.channel.send(embed=embed)
 
@@ -1097,13 +1097,13 @@ class ModmailBot(commands.Bot):
         try:
             await thread.delete_message(message, note=False)
             embed = discord.Embed(
-                description="Successfully deleted message.", color=self.main_color
+                description="Mensaje borrado con éxito.", color=self.main_color
             )
         except ValueError as e:
             if str(e) not in {"DM message not found.", "Malformed thread message."}:
                 logger.debug("Failed to find linked message to delete: %s", e)
                 embed = discord.Embed(
-                    description="Failed to delete message.", color=self.error_color
+                    description="Fallo al borrar el mensaje.", color=self.error_color
                 )
             else:
                 return
@@ -1133,7 +1133,7 @@ class ModmailBot(commands.Bot):
                 await self.add_reaction(after, blocked_emoji)
             else:
                 embed = discord.Embed(
-                    description="Successfully Edited Message", color=self.main_color
+                    description="Mensaje editado con éxito", color=self.main_color
                 )
                 embed.set_footer(text=f"Message ID: {after.id}")
                 await after.channel.send(embed=embed)
