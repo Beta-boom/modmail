@@ -24,7 +24,7 @@ class ConfigManager:
 
     public_keys = {
         # activity
-        "twitch_url": "https://www.twitch.tv/discordmodmail/",
+        "twitch_url": "https://www.twitch.tv/guaymc/",
         # bot settings
         "main_category_id": None,
         "fallback_category_id": None,
@@ -48,23 +48,23 @@ class ConfigManager:
         "recipient_thread_close": False,
         "thread_auto_close_silently": False,
         "thread_auto_close": isodate.Duration(),
-        "thread_auto_close_response": "This thread has been closed automatically due to inactivity after {timeout}.",
-        "thread_creation_response": "The staff team will get back to you as soon as possible.",
-        "thread_creation_footer": "Your message has been sent",
-        "thread_self_closable_creation_footer": "Click the lock to close the thread",
-        "thread_creation_title": "Thread Created",
-        "thread_close_footer": "Replying will create a new thread",
-        "thread_close_title": "Thread Closed",
-        "thread_close_response": "{closer.mention} has closed this Modmail thread.",
-        "thread_self_close_response": "You have closed this Modmail thread.",
+        "thread_auto_close_response": "Este ticket ha sido cerrado por inactividad después de  {timeout}.",
+        "thread_creation_response": "El staff de InGame va a llegar pronto.",
+        "thread_creation_footer": "Tu mensaje ha sido enviado",
+        "thread_self_closable_creation_footer": "Haz click en el candado para cerrar el ticket",
+        "thread_creation_title": "Ticket creado",
+        "thread_close_footer": "Enviar un mensaje creará un nuevo ticket",
+        "thread_close_title": "Ticket creado",
+        "thread_close_response": "{closer.mention} ha cerrado este ticket.",
+        "thread_self_close_response": "Has cerrado este ticket..",
         "thread_move_notify": False,
-        "thread_move_response": "This thread has been moved.",
-        "disabled_new_thread_title": "Not Delivered",
-        "disabled_new_thread_response": "We are not accepting new threads.",
-        "disabled_new_thread_footer": "Please try again later...",
-        "disabled_current_thread_title": "Not Delivered",
-        "disabled_current_thread_response": "We are not accepting any messages.",
-        "disabled_current_thread_footer": "Please try again later...",
+        "thread_move_response": "Este ticket ha sido movido.",
+        "disabled_new_thread_title": "No enviado",
+        "disabled_new_thread_response": "No aceptamos más tickets.",
+        "disabled_new_thread_footer": "Inténtalo de nuevo más tarde...",
+        "disabled_current_thread_title": "No enviado",
+        "disabled_current_thread_response": "No aceptamos más mensajes.",
+        "disabled_current_thread_footer": "Inténtalo de nuevo más tarde...",
         # moderation
         "recipient_color": str(discord.Color.gold()),
         "mod_color": str(discord.Color.green()),
@@ -258,7 +258,7 @@ class ConfigManager:
                     # noinspection PyArgumentList
                     value = discord.Status(value)
                 except ValueError:
-                    logger.warning("Invalid status %s.", value)
+                    logger.warning("Estado inválido %s.", value)
                     value = self.remove(key)
 
             elif key == "activity_type":
@@ -266,7 +266,7 @@ class ConfigManager:
                     # noinspection PyArgumentList
                     value = discord.ActivityType(value)
                 except ValueError:
-                    logger.warning("Invalid activity %s.", value)
+                    logger.warning("Actividad inválida %s.", value)
                     value = self.remove(key)
 
         return value
@@ -283,11 +283,11 @@ class ConfigManager:
                 if len(hex_) == 3:
                     hex_ = "".join(s for s in hex_ for _ in range(2))
                 if len(hex_) != 6:
-                    raise InvalidConfigError("Invalid color name or hex.")
+                    raise InvalidConfigError("El código hex o el nombre del color es inválido.")
                 try:
                     int(hex_, 16)
                 except ValueError:
-                    raise InvalidConfigError("Invalid color name or hex.")
+                    raise InvalidConfigError("El código hex o el nombre del color es inválido.")
 
             except InvalidConfigError:
                 name = str(item).lower()
